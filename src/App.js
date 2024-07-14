@@ -1,8 +1,10 @@
 import React, {useState} from "react";
-// import ClassCounter from "./componets/ClasssCounter";
+import ClassCounter from "./componets/ClasssCounter";
 import './styles/App.css';
 import Postitem from "./componets/Postitem";
 import Postlist from "./componets/Postlist";
+import MyButton from "../UI/button/MyButton";
+
 function App() {
   const [posts, setPosts] = useState([
     {id: 1,title: 'JavaScript',  body: 'Description'},
@@ -12,7 +14,13 @@ function App() {
   ])
   return (
     <div className="App">
-<Postlist posts={posts}/>
+<form>
+  <input type='text' placeholder="Название постa"></input>
+  <input type='text' placeholder="Описание поста"></input>
+  <MyButton>Создать пост</MyButton>
+
+</form>
+<Postlist posts={posts} title='Посты про JS'/>
     </div>
 
     
