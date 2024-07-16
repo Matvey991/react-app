@@ -1,9 +1,10 @@
 import React, {useState} from "react";
-import ClassCounter from "./componets/ClasssCounter";
+// import ClassCounter from "./componets/ClasssCounter";
 import './styles/App.css';
 import Postitem from "./componets/Postitem";
 import Postlist from "./componets/Postlist";
-import MyButton from "../UI/button/MyButton";
+import MyButton from "./componets/UI/button/MyButton";
+import MyInput from "./componets/UI/input/MyInput";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -12,11 +13,13 @@ function App() {
     {id: 3,title: 'JavaScript 3',  body: 'Description'},
 
   ])
+
+
   return (
     <div className="App">
 <form>
-  <input type='text' placeholder="Название постa"></input>
-  <input type='text' placeholder="Описание поста"></input>
+  <MyInput type='text' placeholder="Название постa"/>
+  <MyInput type='text' placeholder="Описание поста"/>
   <MyButton>Создать пост</MyButton>
 
 </form>
