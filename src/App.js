@@ -1,4 +1,4 @@
-import React, {useMemo, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 // import ClassCounter from "./componets/ClasssCounter";
 import './styles/App.css';
 import Postitem from "./componets/Postitem";
@@ -9,27 +9,22 @@ import PostForm from "./componets/PostForm";
 import MySelect from "./componets/UI/select/MySelect";
 import PostFilter from "./componets/PostFilter";
 import MyModal from "./componets/Mymodal/MyModal";
+import { usePosts } from "./hooks/UsePosts";
+import UusePosts from './hooks/UsePosts'
+import axios from "axios";
+import PostService from "./API/PostService";
+import Loader from "./componets/UI/Loader/Loader";
 
 function App() {
-  const [posts, setPosts] = useState([
-    {id: 1,title: 'jGljf',  body: '1aa'},
-    {id: 2,title: 'JFLjau',  body: '3k;kdf;'},
-    {id: 3,title: 'R;jfdlu',  body: 'ro[;kkdj'},
-
-  ])
+  const [posts, setPosts] = useState([])
 const [filter, setFilter] = useState({sort: '', query: ''})
 const [modal, setModal] = useState(false)
+const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
+const [isPostsLoading, setIsPostsLoading] = useState(false)
 
-const sortedPosts = useMemo(() => {
-  if(filter.sort) {
-    return  [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
-  }
-  return posts
-}, [filter.sort, posts])
-
-const sortedAndSearchedPosts = useMemo(() => {
-return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.query))
-}, [filter.query, sortedPosts])
+useEffect(() => {
+  fetchPosts()
+  }, [])
 
 const createPost = (newPost) => {
   setPosts([...posts, newPost])
@@ -38,6 +33,15 @@ const createPost = (newPost) => {
 
 const removePost = (post) => {
   setPosts(posts.filter(p => p.id !== post.id))
+}
+
+async function fetchPosts() {
+  setIsPostsLoading(true)
+  setTimeout(async () => {
+    const posts = await PostService.getAll()
+    setPosts(posts)
+    setIsPostsLoading(false)
+  }, 1000)
 }
 
   return (
@@ -53,8 +57,10 @@ const removePost = (post) => {
    filter={filter}
    setFilter={setFilter}
    /> 
-
- <Postlist remove={removePost} posts={sortedAndSearchedPosts} title='Посты про JS'/>
+{isPostsLoading
+  ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
+  :<Postlist remove={removePost} posts={sortedAndSearchedPosts} title='Посты про JS'/>
+}
     </div>
 
     
