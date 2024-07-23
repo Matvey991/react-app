@@ -5,14 +5,7 @@ import About from "./pages/About";
 
 function App() {
   return (
-    <BrowserRouter>
-    <Route path='/about'>
-<About/>
-    </Route>
-    <Route path='/about'>
-<About/>
-    </Route>f
-    </BrowserRouter>
+<h1>Работает!</h1>
   )
 }
 
