@@ -11,6 +11,7 @@ import Postlist from "../componets/Postlist";
 import Loader from '../componets/UI/Loader/Loader'
 import Pagination from '../componets/pagination/Pagination'
 import MySelect from "../componets/UI/select/MySelect";
+import { CSSTransition } from "react-transition-group";
 
 function Posts() {
     const [posts, setPosts] = useState([])
@@ -47,6 +48,7 @@ function Posts() {
     }
 
     return (
+        <CSSTransition>
         <div className="App">
             <MyButton style={{marginTop: 30}} onClick={() => setModal(true)}>
                 Создать пользователя
@@ -72,6 +74,7 @@ function Posts() {
                 totalPages={totalPages}
             />
         </div>
+        </CSSTransition>
     );
 }
 
