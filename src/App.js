@@ -1,11 +1,17 @@
 import React from "react";
 import './styles/App.css'
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import About from "./pages/About";
+import Posts from "./pages/Posts";
 
 function App() {
   return (
-<h1>Работает!</h1>
+<Routes>
+<Route path="/about" Component={About}>
+  </Route>
+<Route path="/posts" Component={Posts}>
+</Route>
+</Routes>
   )
 }
 

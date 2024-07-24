@@ -5,7 +5,7 @@
  }
  #root {
  display: flex;
- justify-content: center  ;
+ justify-content: center ;
  }
  .App {
     width: 800px;
@@ -19,21 +19,6 @@ justify-content: space-between;
 align-items: center;
 }
 
-.post-enter {
-  transform: translateX(-350px);
-}
- .post-enter-active {
-  transform: translateX(0px);
-   transition: all 500ms ease-in;
- }
- .post-exit {
-   opacity: 1;
- }
- .post-exit-active {
-   transform: translateX(-350px);
-   transition: all 500ms ease-in;
- }
- 
 .page_wrapper {
   margin-top: 30px;
   display: flex;
@@ -49,3 +34,5 @@ align-items: center;
   border: 2px solid orange;
   font-weight: bold;
 }
+
+

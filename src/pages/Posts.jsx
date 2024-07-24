@@ -1,30 +1,16 @@
-// import React, {useEffect, useRef, useState} from 'react';
-// import { useFetching } from '../hooks/useFetching';
-// import { usePosts } from '../hooks/UsePosts';
-// import { getPageCount } from '../utils/pages';
-// import PostService from '../API/PostService';
-// import {useObserver} from "../hooks/useObserver";
-// import MyButton from '../componets/UI/button/MyButton';
-// import MyModal from '../componets/Mymodal/MyModal'
-// import PostItem from '../componets/Postitem';
-// import PostForm from "../components/PostForm";
-import React, {useEffect, useRef, useState} from 'react';
-import PostService from "../API/PostService";
-import {usePosts} from "../hooks/UsePosts";
-import {useFetching} from "../hooks/useFetching";
-import {getPageCount} from "../utils/pages";
-import MyButton from "../components/UI/button/MyButton";
-import PostForm from "../components/PostForm";
-import MyModal from "../components/UI/MyModal/MyModal";
-import PostFilter from "../components/PostFilter";
-import PostList from "../components/PostList";
-import Loader from "../components/UI/Loader/Loader";
-import Pagination from "../components/UI/pagination/Pagination";
-import {useObserver} from "../hooks/useObserver";
-import MySelect from "../components/UI/select/MySelect";
-
-
-
+import React, {useEffect, useState, useRef} from "react";
+import PostService from '../API/PostService'
+import {usePosts} from '../hooks/UsePosts'
+import {useFetching} from '../hooks/useFetching'
+import {getPageCount} from '../utils/pages'
+import MyButton from '../componets/UI/button/MyButton'
+import PostForm from '../componets/PostForm'
+import MyModal from '../componets//Mymodal/MyModal'
+import PostFilter from '../componets/PostFilter'
+import Postlist from "../componets/Postlist";
+import Loader from '../componets/UI/Loader/Loader'
+import Pagination from '../componets/pagination/Pagination'
+import MySelect from "../componets/UI/select/MySelect";
 
 function Posts() {
     const [posts, setPosts] = useState([])
@@ -38,13 +24,9 @@ function Posts() {
 
     const [fetchPosts, isPostsLoading, postError] = useFetching(async (limit, page) => {
         const response = await PostService.getAll(limit, page);
-        setPosts([...posts, ...response.data])
+        setPosts(response.data)
         const totalCount = response.headers['x-total-count']
         setTotalPages(getPageCount(totalCount, limit));
-    })
-
-    useObserver(lastElement, page < totalPages, isPostsLoading, () => {
-        setPage(page + 1);
     })
 
     useEffect(() => {
@@ -56,7 +38,6 @@ function Posts() {
         setModal(false)
     }
 
-    // Получаем post из дочернего компонента
     const removePost = (post) => {
         setPosts(posts.filter(p => p.id !== post.id))
     }
@@ -78,24 +59,12 @@ function Posts() {
                 filter={filter}
                 setFilter={setFilter}
             />
-            <MySelect
-                value={limit}
-                onChange={value => setLimit(value)}
-                defaultValue="Кол-во элементов на странице"
-                options={[
-                    {value: 5, name: '5'},
-                    {value: 10, name: '10'},
-                    {value: 25, name: '25'},
-                    {value: -1, name: 'Показать все'},
-                ]}
-            />
             {postError &&
             <h1>Произошла ошибка ${postError}</h1>
             }
-            <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Посты про JS"/>
-            <div ref={lastElement} style={{height: 20, background: 'red'}}/>
-            {isPostsLoading &&
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
+            {isPostsLoading 
+            ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
+            : <Postlist remove={removePost} posts={sortedAndSearchedPosts} title="Посты про JS"/> 
             }
             <Pagination
                 page={page}
